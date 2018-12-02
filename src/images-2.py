@@ -9,12 +9,12 @@ def even_weight(k):
 
 
 def L_Euclide_Minkowski(S, etalon, n, l=2, weight=None):
-    weigth = weight or even_weight
+    weight = weight or even_weight
     return sum([weight(k) * (S[k] - etalon[k]) ** l for k in range(len(S))]) ** (1 / l)
 
 
 def L_abs(S, etalon, weight=None):
-    weigth = weight or even_weight
+    weight = weight or even_weight
     return sum([weight(k) * math.fabs(S[k] - etalon[k]) for k in range(len(S))])
 
 
