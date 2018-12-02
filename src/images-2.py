@@ -1,5 +1,6 @@
 import sys
 import math
+import os
 from PIL import Image
 from numpy import asarray, mean, std
 
@@ -22,10 +23,22 @@ def L_Kamberr(S, etalon):
     return sum([math.fabs((S[k] - etalon[k]) / (S[k] + etalon[k])) for k in range(len(S))])
 
 
-def main(input_file, output_file):
-    print("Loading image from {}...".format(input_file))
-    image = Image.open(input_file).convert('L')
-    data = asarray(image)
+def compare_images(image1, image2):
+    data1 = asarray(image1)
+    data2 = asarray(image2)
+    image1.show()
+    image2.show()
+
+def main(path='.'):
+    files = os.listdir(path)
+    files = filter(lambda f: f[0] != '.', files)
+    for filename1 in files:
+        print("Loading image from {}...".format(filename1))
+        image1 = Image.open("{}/{}".format(path, filename1)).convert('L')
+        for filename2 in files:
+            image2 = Image.open("{}/{}".format(path, filename1)).convert('L')
+            print("{}<==>{}".format(filename1, filename2))
+            compare_images(image1, image2)
 
     # image.show()
 
@@ -75,7 +88,8 @@ def main(input_file, output_file):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("images-2.py <inputfile> <outputfile>")
-        sys.exit(0)
-    main(*sys.argv[1:3])
+    # if len(sys.argv) < 3:
+    #     print("images-2.py <inputfile> <outputfile>")
+    #     sys.exit(0)
+    # main(*sys.argv[1:3])
+    main('./res')
